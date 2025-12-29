@@ -1,0 +1,269 @@
+Multi + MPL + MSE      0.903 0.906
+S4 + MPL + MSE [Avg+Max] 0.877 0.882
+S4 + MPL + MSE [Avg Learnable] 0.898 0.901
+[大致记录] 0.907 0.917
+
+多尺度测试01：
+Single=> CONV --> MLP
+Multi        |--->[Detach]-CONV --> MLP
+0.911 0.916 Lr 1e-4
+0.909 0.913 Lr 2e-5
+
+多尺度测试02：
+Single=> CONV --> MLP1 --->MLP
+Multi                    |--->[Detach]--> MLP
+
+0.914 0.918 Lr 1e-4
+
+
+数据集测试：
+模型选择多尺度测试02
+Train: Resize to 512==[Min(H, W)]  Centrel Crop to [512 512] ==> Random Flip
+Test: Resize to 512==[Min(H, W)] Centrel Crop to [512 512]
+0.915, 0.918 ==> CV2作为dataloader
+0.913 0.917  ==> Pillow作为dataloader ==> 可能是resize采用了bicubic ==> CV2是BILINEAR
+0.912 0.915 哪怕换成了BILINEARE也不太好 重新换成CV2试一下
+0.915 0.918 重新换成CV2就好了--！
+
+========================================================================
+Train: Resize to 512==[Min(H, W)] ==> Random Crop [384x384] ==> Random Flip
+Test: Resize to 512==[Min(H, W)] ==> Center Crop [384 x 384]
+0.913 0.917
+========================================================================
+Train: Resize to 512==[Min(H, W)] ==> Random Crop [384x384] ==> Random Flip
+Test: Resize to 512==[Min(H, W)] ==> Random Crop [384 x 384] (!!Repeat 20 times!!)
+0.917 0.921
+=============================================================================
+Dataset、run的流程和上面一样，区别是model:
+resnet-> S1-->Conv1-->ft1-->detach--|Concat-->Conv(512->128)Transformer-->[GAP+GMP]--> MLP
+         S2-->Conv2-->ft2-->detach--|
+         S3-->Conv3-->ft3-->detach--|
+         S4-->Conv4-->ft4-->detach--|
+
+         ft1-->sc1.....
+0.911 0.916
+可能是学习率和维度的问题
+=============================================
+只把Transformer那部分的学习率设置成1e-5
+0.910 0.913
+=============================================
+把整个学习率设置成 1e-5
+0.905 0.908
+=============================================
+resnet-> S1-->Conv1-->ft1-->detach--|Concat-->Transformer-->[GAP+GMP]--> MLP
+         S2-->Conv2-->ft2-->detach--|
+         S3-->Conv3-->ft3-->detach--|
+         S4-->Conv4-->ft4-->detach--|
+
+         ft1-->sc1.....
+0.912 0.916
+[加入了Relu6就好了
+num_head=4, dd=1024
+]
+===============================================
+把TransencLayer换成2层
+
+================================================
+
+
+单尺度训练 S1:
+0.900 0.905 EP42
+单尺度训练 S2:
+0.902 0.908 EP47
+单尺度训练 S3:
+0.908 0.912 EP19
+单尺度训练 S4:
+0.898 0.903 EP37
+===============================================
+加入去相关性模块：
+本地3090：0.915/4，0.919
+远程3090：0.011， 0.915
+
+本地测试：将CV2reader 换成 PIL
+远程测试：将每个尺度的conv由fix换成learnable
+=================================================
+''' SOTA '''
+import random
+import torch.utils.data as data
+import os
+import os.path
+import numpy as np
+import scipy.io as scio
+from PIL import Image
+import os
+import torch
+import torchvision
+import csv
+import cv2
+from torchvision import transforms
+
+class SPQAFolder(data.Dataset):
+
+
+    def __init__(self, root, index, transform):
+        imgname = []
+        mos_all = []
+        csv_file = os.path.join(root, 'mos.csv')
+        with open(csv_file) as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                imgname.append(row['image_name'])
+                mos = np.array(float(row['MOS'])).astype(np.float32)
+                mos_all.append(mos)
+        labels = np.array(mos_all).astype(np.float32)
+        labels = (labels - np.min(labels)) / (np.max(labels) - np.min(labels))
+        sample = []
+        for i, item in enumerate(index):
+            sample.append((os.path.join(root, 'TestImage', imgname[item]), labels[item]))
+        self.samples = sample
+        self.transform = transform
+
+    def __getitem__(self, index):
+        """
+        Args:
+            index (int): Index
+
+        Returns:
+            tuple: (sample, target) where target is class_index of the target class.
+        """
+
+        '''
+        path, target = self.samples[index]
+
+
+        image = pil_loader(path)
+
+        # 调整图像大小，保持宽高比不变，较小的边为512
+        w, h =  image.size
+        if h <= w:
+            new_h = 512
+            new_w = int(w * (512 / h))
+        else:
+            new_w = 512
+            new_h = int(h * (512 / w))
+        image = image.resize((new_w, new_h), Image.BILINEAR)
+        '''
+        path, target = self.samples[index]
+
+        image = cv2.imread(path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # 转换为RGB格式
+
+        # 调整图像大小，保持宽高比不变，较小的边为512
+        h, w, _ = image.shape
+        if h < w:
+            new_h = 512
+            new_w = int(w * (512 / h))
+        else:
+            new_w = 512
+            new_h = int(h * (512 / w))
+        image = cv2.resize(image, (new_w, new_h))
+
+        # 转换为PIL Image以便使用torchvision.transforms
+        image = transforms.ToPILImage()(image)
+        sample = self.transform(image)
+        return sample, target
+
+    def __len__(self):
+        length = len(self.samples)
+        return length
+
+
+class Koniq_10kFolder(data.Dataset):
+
+    def __init__(self, root, index, transform):
+        imgname = []
+        mos_all = []
+        csv_file = os.path.join(root, 'koniq10k_scores_and_distributions.csv')
+        with open(csv_file) as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                imgname.append(row['image_name'])
+                mos = np.array(float(row['MOS_zscore'])).astype(np.float32)
+                mos_all.append(mos)
+        labels = np.array(mos_all).astype(np.float32)
+        labels = (labels - np.min(labels)) / (np.max(labels) - np.min(labels))
+        sample = []
+        for ind in index:
+            sample.append((os.path.join(root, '1024x768', imgname[ind]), labels[ind]))
+        self.samples = sample
+        self.transform = transform
+
+    def __getitem__(self, index):
+        """
+        Args:
+            index (int): Index
+
+        Returns:
+            tuple: (sample, target) where target is class_index of the target class.
+        """
+        path, target = self.samples[index]
+        sample = pil_loader(path)
+        sample = self.transform(sample)
+        return sample, target
+
+    def __len__(self):
+        length = len(self.samples)
+        return length
+
+def pil_loader(path):
+    with open(path, 'rb') as f:
+        img = Image.open(f)
+        return img.convert('RGB')
+
+class DataLoaderIQA(object):
+    """Dataset class for IQA databases"""
+
+    def __init__(self, dataset, path, img_indx, batch_size=1, istrain=True):
+
+        self.batch_size = batch_size
+        self.istrain = istrain
+
+        if dataset == 'koniq':
+            if istrain:
+                transforms = torchvision.transforms.Compose([
+                    torchvision.transforms.RandomHorizontalFlip(),
+                    torchvision.transforms.Resize((384, 512)),
+                    torchvision.transforms.ToTensor(),
+                    torchvision.transforms.Normalize(mean=(0.5, 0.5, 0.5),
+                                                     std=(0.5, 0.5, 0.5))])
+            else:
+                transforms = torchvision.transforms.Compose([
+                    torchvision.transforms.Resize((384, 512)),
+                    torchvision.transforms.ToTensor(),
+                    torchvision.transforms.Normalize(mean=(0.5, 0.5, 0.5),
+                                                     std=(0.5, 0.5, 0.5))])
+
+        if dataset == 'spaq':
+            if istrain:
+                transforms = torchvision.transforms.Compose([
+                    torchvision.transforms.RandomHorizontalFlip(),
+                    torchvision.transforms.CenterCrop((512, 512)),
+                    torchvision.transforms.ToTensor(),
+                    torchvision.transforms.Normalize(mean=(0.5, 0.5, 0.5),
+                                                     std=(0.5, 0.5, 0.5))])
+            else:
+                transforms = torchvision.transforms.Compose([
+                    torchvision.transforms.CenterCrop((512, 512)),
+                    torchvision.transforms.ToTensor(),
+                    torchvision.transforms.Normalize(mean=(0.5, 0.5, 0.5),
+                                                     std=(0.5, 0.5, 0.5))])
+
+        if dataset == 'koniq':
+            self.data = Koniq_10kFolder(root=path, index=img_indx, transform=transforms)
+        if dataset == 'spaq':
+            self.data = SPQAFolder(root=path, index=img_indx, transform=transforms)
+
+
+    def get_data(self):
+        if self.istrain:
+            dataloader = torch.utils.data.DataLoader(
+                self.data, batch_size=self.batch_size, shuffle=True, drop_last=True, num_workers=8) #Shuffle 改成False了
+        else:
+            dataloader = torch.utils.data.DataLoader(
+                self.data, batch_size=self.batch_size, shuffle=False, drop_last=True, num_workers=8)
+        return dataloader
+
+
+
+
+'''

@@ -1,0 +1,1113 @@
+
+
+Wed Jan  8 00:40:31 2025
+Command line: TestDisk
+
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+OS: Linux, kernel 5.15.0-130-generic (#140-Ubuntu SMP Wed Dec 18 17:59:53 UTC 2024) x86_64
+Compiler: GCC 11.2
+ext2fs lib: 1.46.5, ntfs lib: libntfs-3g, reiserfs lib: none, ewf lib: none, curses lib: ncurses 6.3
+Warning: can't get size for Disk /dev/mapper/control - 0 B - 0 sectors, sector size=512
+Warning: can't get size for Disk /dev/loop6 - 0 B - 0 sectors, sector size=512
+Warning: can't get size for Disk /dev/loop7 - 0 B - 0 sectors, sector size=512
+Hard disk list
+Disk /dev/sda - 4799 GB / 4470 GiB - CHS 583521 255 63, sector size=512 - DELL PERC H750 Adp, FW:5.16
+Disk /dev/loop0 - 66 MB / 63 MiB - 130448 sectors (RO), sector size=512
+Disk /dev/loop1 - 66 MB / 63 MiB - 129600 sectors (RO), sector size=512
+Disk /dev/loop2 - 117 MB / 111 MiB - 229272 sectors (RO), sector size=512
+Disk /dev/loop3 - 93 MB / 89 MiB - 183096 sectors (RO), sector size=512
+Disk /dev/loop4 - 52 MB / 49 MiB - 102072 sectors (RO), sector size=512
+Disk /dev/loop5 - 46 MB / 44 MiB - 90720 sectors (RO), sector size=512
+
+Partition table type (auto): EFI GPT
+Disk /dev/sda - 4799 GB / 4470 GiB - DELL PERC H750 Adp
+Partition table type: EFI GPT
+
+Analyse Disk /dev/sda - 4799 GB / 4470 GiB - CHS 583521 255 63
+hdr_size=92
+hdr_lba_self=1
+hdr_lba_alt=9374269439 (expected 9374269439)
+hdr_lba_start=34
+hdr_lba_end=9374269406
+hdr_lba_table=2
+hdr_entries=128
+hdr_entsz=128
+Current partition structure:
+ 1 P EFI System                  2048    2203647    2201600
+ 2 P Linux filesys. data      2203648    6397951    4194304
+ 3 P Linux filesys. data      6397952 9374267391 9367869440
+
+search_part()
+Disk /dev/sda - 4799 GB / 4470 GiB - CHS 583521 255 63
+FAT32 at 0/32/33
+FAT1 : 32-2183
+FAT2 : 2184-4335
+start_rootdir : 4336 root cluster : 2
+Data : 4336-2201591
+sectors : 2201598
+cluster_size : 8
+no_of_cluster : 274657 (2 - 274658)
+fat_length 2152 calculated 2146
+set_FAT_info: name from BS used
+
+FAT32 at 0/32/33
+FAT: cluster=2(0x2), pos=6384
+     EFI System                  2048    2203645    2201598 [EFI System Partition] [NO NAME]
+     FAT32, blocksize=4096, 1127 MB / 1074 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/35735, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+Last mount time:    Mon Jan  6 23:23:29 2025
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 4796 GB / 4466 GiB
+
+Results
+   P EFI System                  2048    2203645    2201598 [EFI System Partition] [NO NAME]
+     FAT32, blocksize=4096, 1127 MB / 1074 MiB
+   P Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+   P Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 4796 GB / 4466 GiB
+
+Hint for advanced users: dmsetup may be used if you prefer to avoid rewriting the partition table for the moment:
+echo "0 2201598 linear /dev/sda 2048" | dmsetup create test0
+echo "0 4194304 linear /dev/sda 2203648" | dmsetup create test1
+echo "0 9367869440 linear /dev/sda 6397952" | dmsetup create test2
+
+interface_write()
+ 1 P EFI System                  2048    2203645    2201598 [EFI System Partition] [NO NAME]
+ 2 P Linux filesys. data      2203648    6397951    4194304
+ 3 P Linux filesys. data      6397952 9374267391 9367869440
+
+search_part()
+Disk /dev/sda - 4799 GB / 4470 GiB - CHS 583521 255 63
+FAT32 at 0/32/33
+FAT1 : 32-2183
+FAT2 : 2184-4335
+start_rootdir : 4336 root cluster : 2
+Data : 4336-2201591
+sectors : 2201598
+cluster_size : 8
+no_of_cluster : 274657 (2 - 274658)
+fat_length 2152 calculated 2146
+set_FAT_info: name from BS used
+
+FAT32 at 0/32/33
+FAT: cluster=2(0x2), pos=6384
+     EFI System                  2048    2203645    2201598 [EFI System Partition] [NO NAME]
+     FAT32, blocksize=4096, 1127 MB / 1074 MiB
+FAT32 at 0/32/39
+FAT1 : 32-2183
+FAT2 : 2184-4335
+start_rootdir : 4336 root cluster : 2
+Data : 4336-2201591
+sectors : 2201598
+cluster_size : 8
+no_of_cluster : 274657 (2 - 274658)
+fat_length 2152 calculated 2146
+set_FAT_info: name from BS used
+
+FAT32 at 0/32/39
+FAT: cluster=2(0x2), pos=6384
+     EFI System                  2048    2203645    2201598 [EFI System Partition] [NO NAME]
+     FAT32, blocksize=4096, 1127 MB / 1074 MiB
+FAT32 at 0/32/39
+FAT1 : 32-2183
+FAT2 : 2184-4335
+start_rootdir : 4336 root cluster : 2
+Data : 4336-2201591
+sectors : 2201598
+cluster_size : 8
+no_of_cluster : 274657 (2 - 274658)
+fat_length 2152 calculated 2146
+set_FAT_info: name from BS used
+
+FAT32 at 0/32/39
+FAT: Directory entry is marked as free.
+FAT: cluster=2(0x2), pos=6390
+     MS Data                     2054    2203651    2201598 [NO NAME]
+     FAT32, blocksize=4096, 1127 MB / 1074 MiB
+
+XFS Marker at 25/159/7
+
+recover_xfs
+     Linux filesys. data       411648    2504703    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+
+XFS Marker at 41/231/63
+
+recover_xfs
+     Linux filesys. data       673280    2766335    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+FAT32 at 51/63/13
+FAT1 : 8222-12302
+FAT2 : 12303-16383
+start_rootdir : 16384 root cluster : 2
+Data : 16384-4194303
+sectors : 4194304
+cluster_size : 8
+no_of_cluster : 522240 (2 - 522241)
+fat_length 4081 calculated 4081
+set_FAT_info: name from BS used
+
+FAT32 at 51/63/13
+FAT: Directory entry is marked as free.
+FAT: cluster=2(0x2), pos=839680
+     MS Data                   823296    5017599    4194304 [NO NAME]
+     FAT32, blocksize=4096, 2147 MB / 2048 MiB
+FAT32 at 51/63/19
+FAT1 : 8222-12302
+FAT2 : 12303-16383
+start_rootdir : 16384 root cluster : 2
+Data : 16384-4194303
+sectors : 4194304
+cluster_size : 8
+no_of_cluster : 522240 (2 - 522241)
+fat_length 4081 calculated 4081
+set_FAT_info: name from BS used
+
+FAT32 at 51/63/19
+FAT: Directory entry is marked as free.
+FAT: cluster=2(0x2), pos=839680
+     MS Data                   823296    5017599    4194304 [NO NAME]
+     FAT32, blocksize=4096, 2147 MB / 2048 MiB
+FAT32 at 51/63/19
+FAT1 : 8222-12302
+FAT2 : 12303-16383
+start_rootdir : 16384 root cluster : 2
+Data : 16384-4194303
+sectors : 4194304
+cluster_size : 8
+no_of_cluster : 522240 (2 - 522241)
+fat_length 4081 calculated 4081
+set_FAT_info: name from BS used
+
+FAT32 at 51/63/19
+FAT: Directory entry is marked as free.
+FAT: cluster=2(0x2), pos=839686
+     MS Data                   823302    5017605    4194304 [NO NAME]
+     FAT32, blocksize=4096, 2147 MB / 2048 MiB
+
+XFS Marker at 58/49/56
+
+recover_xfs
+     Linux filesys. data       934912    3027967    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+
+XFS Marker at 74/122/49
+
+recover_xfs
+     Linux filesys. data      1196544    3289599    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+
+XFS Marker at 90/195/42
+
+recover_xfs
+     Linux filesys. data      1458176    3551231    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+
+LVM2 magic value at 90/212/35
+part_size 9371758592
+     Linux LVM                1459240 9373217831 9371758592
+     LVM2, 4798 GB / 4468 GiB
+
+LVM2 magic value at 91/22/36
+part_size 9371758592
+     Linux LVM                1463336 9373221927 9371758592
+     LVM2, 4798 GB / 4468 GiB
+
+LVM2 magic value at 91/87/37
+part_size 9371758592
+     Linux LVM                1467432 9373226023 9371758592
+     LVM2, 4798 GB / 4468 GiB
+
+XFS Marker at 107/13/35
+
+recover_xfs
+     Linux filesys. data      1719808    3812863    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+
+XFS Marker at 123/86/28
+
+recover_xfs
+     Linux filesys. data      1981440    4074495    2093056
+     XFS CRC enabled, blocksize=4096, 1071 MB / 1022 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+block_group_nr 1
+
+recover_EXT2: "e2fsck -b 32768 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=1/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203646    6397949    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 1
+
+recover_EXT2: "e2fsck -b 32768 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=1/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 3
+
+recover_EXT2: "e2fsck -b 98304 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=3/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203646    6397949    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 3
+
+recover_EXT2: "e2fsck -b 98304 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=3/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 5
+
+recover_EXT2: "e2fsck -b 163840 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=5/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203646    6397949    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 5
+
+recover_EXT2: "e2fsck -b 163840 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=5/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 7
+
+recover_EXT2: "e2fsck -b 229376 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=7/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203646    6397949    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 7
+
+recover_EXT2: "e2fsck -b 229376 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=7/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4300840    8495143    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4300904    8495207    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4300952    8495255    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4301032    8495335    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4301472    8495775    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4301624    8495927    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Mon Jan  6 23:23:31 2025
+     Linux filesys. data      4301704    8496007    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4319248    8513551    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4319320    8513623    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4319480    8513783    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4320096    8514399    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4337880    8532183    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4337944    8532247    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338096    8532399    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338336    8532639    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338472    8532775    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338600    8532903    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338696    8532999    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338824    8533127    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4338920    8533223    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4339144    8533447    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4339168    8533471    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4339616    8533919    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4339744    8534047    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4339840    8534143    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4339968    8534271    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340064    8534367    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340360    8534663    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340456    8534759    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340520    8534823    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340608    8534911    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340704    8535007    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4340752    8535055    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4341184    8535487    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359016    8553319    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359088    8553391    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359248    8553551    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359512    8553815    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359616    8553919    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359712    8554015    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4359784    8554087    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=3/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+Last mount time:    Wed Dec 25 20:59:48 2024
+     Linux filesys. data      4360168    8554471    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+block_group_nr 9
+
+recover_EXT2: "e2fsck -b 294912 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=9/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203646    6397949    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+block_group_nr 9
+
+recover_EXT2: "e2fsck -b 294912 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=9/16, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:31:52 2024
+     Linux filesys. data      2203648    6397951    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/35735, s_mnt_count=4/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+Last mount time:    Mon Jan  6 23:23:29 2025
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 4796 GB / 4466 GiB
+
+block_group_nr 1
+
+recover_EXT2: "e2fsck -b 32768 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=1/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 1
+
+recover_EXT2: "e2fsck -b 32768 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=1/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 3
+
+recover_EXT2: "e2fsck -b 98304 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=3/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 3
+
+recover_EXT2: "e2fsck -b 98304 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=3/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+     Linux Swap               7249912 28763529703 28756279792
+     SWAP2 version 537541501, pagesize=8192, 14 TB / 13 TiB
+This partition ends after the disk limits. (start=7249912, size=28756279792, end=28763529703, disk end=9374269440)
+     Linux Swap               7249920   24027119   16777200
+     SWAP2 version 1, pagesize=4096, 8589 MB / 8191 MiB
+
+block_group_nr 5
+
+recover_EXT2: "e2fsck -b 163840 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=5/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 5
+
+recover_EXT2: "e2fsck -b 163840 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=5/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+LVM magic value at 502/28/32
+
+block_group_nr 7
+
+recover_EXT2: "e2fsck -b 229376 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=7/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 7
+
+recover_EXT2: "e2fsck -b 229376 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=7/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+LVM magic value at 516/84/18
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8554192   12748495    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8571024   12765327    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8580136   12774439    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8580240   12774543    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8586888   12781191    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8586920   12781223    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+recover_EXT2: s_block_group_nr=0/16, s_mnt_count=1/4294967295, s_blocks_per_group=32768, s_inodes_per_group=8192
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 524288
+recover_EXT2: part_size 4194304
+Filesystem created: Wed Dec 25 15:11:55 2024
+Last mount time:    Wed Dec 25 15:11:56 2024
+     Linux filesys. data      8610968   12805271    4194304
+     ext4 blocksize=4096 Large_file Sparse_SB Recover, 2147 MB / 2048 MiB
+
+block_group_nr 9
+
+recover_EXT2: "e2fsck -b 294912 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=9/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 9
+
+recover_EXT2: "e2fsck -b 294912 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=9/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 25
+
+recover_EXT2: "e2fsck -b 819200 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=25/35423, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1160773120
+recover_EXT2: part_size 9286184960
+Filesystem created: Wed May 11 14:39:02 2022
+     Linux filesys. data      4196350 9290381309 9286184960
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4754 GB / 4427 GiB
+
+block_group_nr 25
+
+recover_EXT2: "e2fsck -b 819200 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=25/35423, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1160773120
+recover_EXT2: part_size 9286184960
+Filesystem created: Wed May 11 14:39:02 2022
+     Linux filesys. data      4196352 9290381311 9286184960
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4754 GB / 4427 GiB
+
+block_group_nr 1
+
+recover_EXT2: "e2fsck -b 32768 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=1/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594302 9374263293 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 1
+
+recover_EXT2: "e2fsck -b 32768 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=1/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594304 9374263295 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 27
+
+recover_EXT2: "e2fsck -b 884736 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=27/35423, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1160773120
+recover_EXT2: part_size 9286184960
+Filesystem created: Wed May 11 14:39:02 2022
+     Linux filesys. data      4196350 9290381309 9286184960
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4754 GB / 4427 GiB
+
+block_group_nr 27
+
+recover_EXT2: "e2fsck -b 884736 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=27/35423, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1160773120
+recover_EXT2: part_size 9286184960
+Filesystem created: Wed May 11 14:39:02 2022
+     Linux filesys. data      4196352 9290381311 9286184960
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4754 GB / 4427 GiB
+
+block_group_nr 3
+
+recover_EXT2: "e2fsck -b 98304 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=3/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594302 9374263293 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 3
+
+recover_EXT2: "e2fsck -b 98304 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=3/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594304 9374263295 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 5
+
+recover_EXT2: "e2fsck -b 163840 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=5/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594302 9374263293 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 5
+
+recover_EXT2: "e2fsck -b 163840 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=5/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594304 9374263295 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 7
+
+recover_EXT2: "e2fsck -b 229376 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=7/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594302 9374263293 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 7
+
+recover_EXT2: "e2fsck -b 229376 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=7/35719, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170458624
+recover_EXT2: part_size 9363668992
+Filesystem created: Wed Dec 25 15:11:56 2024
+     Linux filesys. data     10594304 9374263295 9363668992
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4794 GB / 4464 GiB
+
+block_group_nr 25
+
+recover_EXT2: "e2fsck -b 819200 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=25/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 25
+
+recover_EXT2: "e2fsck -b 819200 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=25/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 27
+
+recover_EXT2: "e2fsck -b 884736 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=27/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397950 9374267389 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+
+block_group_nr 27
+
+recover_EXT2: "e2fsck -b 884736 -B 4096 device" may be needed
+recover_EXT2: s_block_group_nr=27/35735, s_mnt_count=0/4294967295, s_blocks_per_group=32768, s_inodes_per_group=4096
+recover_EXT2: s_blocksize=4096
+recover_EXT2: s_blocks_count 1170983680
+recover_EXT2: part_size 9367869440
+Filesystem created: Wed Dec 25 15:31:54 2024
+     Linux filesys. data      6397952 9374267391 9367869440
+     ext4 blocksize=4096 Large_file Sparse_SB Backup_SB, 4796 GB / 4466 GiB
+SIGINT detected! TestDisk has been killed.

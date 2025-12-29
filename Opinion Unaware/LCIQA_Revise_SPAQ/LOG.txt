@@ -1,0 +1,2 @@
+sudo apt install testdisk
+EP24  Only Merge is Optimized, 1024x768->768x512, Repeat 10 time  TestSRCCM: 0.920 TestPLCCM:  0.927
